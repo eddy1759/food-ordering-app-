@@ -72,5 +72,5 @@ const messages = {
 
 module.exports = {
     availableLangs,
-messages
+    messages
 }

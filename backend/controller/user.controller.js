@@ -12,7 +12,28 @@ const userService = require('../services/index')
  * @property {Oobject} req.file - User image
  * @returns {JSON} - A JSON representing the type, message and user data
  */
-const createUser = catchAsync
+const createUser = catchAsync(async (req, res) => {
+    // ! Create new user
+    const {type, message, statusCode, user} = await userService.createUser(
+        req.body,
+        req.file
+    )
+
+    // ! Check if there is an error
+    if (type === 'Error') {
+        return res.status(statusCode).json({
+            type,
+            message: req.polyglot.t(message)
+        })
+    }
+
+    // ! If everything is Ok, send data
+    return res.status(statusCode).json({
+        type,
+        message: req.polyglot.t(message),
+        user
+    })
+})
 
 
 
