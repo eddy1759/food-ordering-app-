@@ -34,7 +34,7 @@ const userSchema = new Schema({
         validate: {
             validator: function(el) {
                 return el === this.password;
-            }
+        }
         }
     },
     role: {

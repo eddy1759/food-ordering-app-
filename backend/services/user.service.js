@@ -12,6 +12,7 @@ const dataUri = require('../utils/datauri')
  * @returns {Object<type|message|statusCode|user>}
  */
 const createUser = catchAsync(async (body, profileImg) => {
+    console.log(body)
     //!  check if user profile image is provided
     if (profileImg === undefined) {
         return {
@@ -137,8 +138,8 @@ const logIn = catchAsync(async (body) => {
  * @param {Object} body - Bbody object data
  * @returns {Object<type|message|statusCode|user>}
  */
-const updateUserDetails = catchAsync(async (user, body) => {
-    const {id} = user;
+const updateUserDetails = catchAsync(async (userdata, body) => {
+    const {id} = userdata;
     const {password, passwordConfirmation, email} = body;
 
     //!  check if password and passwordConfirmation are provided
@@ -151,7 +152,7 @@ const updateUserDetails = catchAsync(async (user, body) => {
     }
 
     //!  Find user document and update it
-    const user = await userModel.findByIdAndUpdate(id, body, {
+   let user = await userModel.findByIdAndUpdate(id, body, {
         new: true,
         runValidators: true
     })
@@ -163,7 +164,7 @@ const updateUserDetails = catchAsync(async (user, body) => {
     }
 })
 
-const updateUserProfileImage = catchAsync(async(user, profileImg) => {
+const updateUserProfileImage = catchAsync(async(userdata, profileImg) => {
     //! check if profile image is provided
     if (profileImg === undefined) {
         return {
@@ -173,7 +174,7 @@ const updateUserProfileImage = catchAsync(async(user, profileImg) => {
         }
     }
 
-    const {profileImageId, id} = user;
+    const {profileImageId, id} = userdata;
 
     // ! Destroy image from cloudinary
     destroyFile(profileImageId);

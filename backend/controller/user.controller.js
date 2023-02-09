@@ -1,7 +1,6 @@
 const catchAsync = require('../utils/catchAsync')
 const userService = require('../services/index')
 
-// const logger = require('../middlewares/logging/logger')
 
 
 /** 
@@ -137,3 +136,39 @@ const updateUserProfileImage = catchAsync(async (req, res) => {
 })
 
 
+/**
+ * @desc      Delete User's Data Controller
+ * @param     { Object } req - Request object
+ * @param     { Object } res - Response object
+ * @property  { String } req.params.id - User ID
+ * @returns   { JSON } - A JSON object representing the type and message
+ */
+ const deleteUser = catchAsync(async (req, res) => {
+    // ! Find user document and delete it
+    const { type, message, statusCode } = await userService.deleteUser(
+      req.params.id
+    );
+  
+    // ! Check if there is an error
+    if (type === 'Error') {
+      return res.status(statusCode).json({
+        type,
+        message: message
+      });
+    }
+  
+    // ! If everything is OK, send data
+    return res.status(statusCode).json({
+      type,
+      message: message
+    });
+  });
+
+  module.exports = {
+    createUser,
+    loginUser,
+    logout,
+    updateUserDetails,
+    updateUserProfileImage,
+    deleteUser
+  }

@@ -15,14 +15,16 @@ const UserAddSchema = Joi.object({
     password: Joi.string()
         .pattern(new RegExp('^[a-zA-Z0-9]{6,30}$'))
         .required(),
-    usertype: Joi.string()
+    role: Joi.string()
         .default('user')
         .optional(),
-    DOB: Joi.date()
-        .less('1-1-2023'),
+    passwordConfirmation: Joi.string()
+        .pattern(new RegExp('^[a-zA-Z0-9]{6,30}$'))
+        .required(),
     address: Joi.string()
         .required(),
     profileImg: Joi.string()
+        .required()
 })
 
 const UpdateUserSchema = Joi.object({
@@ -32,8 +34,6 @@ const UpdateUserSchema = Joi.object({
     lastname: Joi.string()
         .max(255)
         .trim(),
-    DOB: Joi.date()
-        .less('1-1-2023'),
     address: Joi.string(),
     profileImg: Joi.string() 
 })

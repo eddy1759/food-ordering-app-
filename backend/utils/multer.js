@@ -3,7 +3,7 @@ const path = require('path')
 const AppError = require('./appError')
 
 const storage = multer.memoryStorage();
-
+// const storage = multer.diskStorage()
 // const storage = multer.diskStorage({
 //     filename: function(req, file, callback) {
 //       callback(null, Date.now() + file.originalname);
@@ -12,7 +12,7 @@ const storage = multer.memoryStorage();
 //   const upload = multer({ storage: storage });
 
 const limits = {
-    fileSize: 1024 * 1024
+    fileSize: 5024 * 5024
 }
 
 const fileFilter = (req, file, cb) => {
