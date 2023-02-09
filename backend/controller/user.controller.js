@@ -7,8 +7,12 @@ const userService = require('../services/index')
 /** 
  * @desc Create New User Controller
  * @param {Object} req - Request object
- * 
-*/
+ * @param {Object} res - Response object
+ * @property {Object} req.body - Body object data
+ * @property {Oobject} req.file - User image
+ * @returns {JSON} - A JSON representing the type, message and user data
+ */
+const createUser = catchAsync
 
 
 
