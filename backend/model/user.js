@@ -28,29 +28,52 @@ const userSchema = new Schema({
         lowercase: true,
         trim: true
     },
-    usertype: {
+    passwordConfirmation: {
+        type: String,
+        required: true,
+        validate: {
+            validator: function(el) {
+                return el === this.password;
+            }
+        }
+    },
+    role: {
         type: String,
         enum: ["user", "admin"],
         default: "user",
     },
-    DOB: {
-        type: Date,
-        max: Date.now()
+    isEmailVerified: {
+        type: Boolean,
+        default:false
+    },
+    phone: {
+        type: String,
     },
     address: {
         type: String,
-        required: true,
     },
     profileImg: {
+        type: String,
+        required: true
+    },
+    profileImageId: {
+        type: String
+    },
+    discountCode: {
         type: String
     }},
     {timestamps: true}
 )
 
 userSchema.pre('save', async function hashedPassword (next) {
+    // Oonly run this function if password was actually modified
+    if (!this.isModified('password')) return next();
+    // passport hashing
     const hash = await bcrypt.hash(this.password, 10)
 
     this.password = hash;
+    // Delete passwordConfirmation field
+    this.passwordConfirmation = undefined
     next()
 })
 

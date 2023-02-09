@@ -7,4 +7,18 @@ cloudinary.config({
         api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
-module.exports = cloudinary
+const destroyFile = (PublicID) => {
+        cloudinary.destroy(PublicID, (error, des) => des)
+}
+const uploadFile = (file, width) => {
+        cloudinary.uploader.upload(file, {
+                width: width,
+                crop: 'fit',
+                format: 'webp'
+        })
+};
+
+module.exports = {
+        destroyFile,
+        uploadFile
+}
