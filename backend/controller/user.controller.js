@@ -66,9 +66,9 @@ const loginUser = catchAsync(async (req, res) => {
 })
 
 /**
- * @desc Logout a user
- * @param {*} req - Request object
- * @param {*} res - Response object
+ * @desc Logout a user controller
+ * @param {Object} req - Request object
+ * @param {Object} res - Response object
  * @returns - it return nothing
  */
 const logout = catchAsync(async (req, res) => {
@@ -81,6 +81,59 @@ const logout = catchAsync(async (req, res) => {
         })
 })
 
+/**
+ *  @desc Update User Details Controller
+ * @param {*} req - Request object
+ * @param {*} res - Response object
+ * @returns - it return nothing
+ */ 
+const updateUserDetails = catchAsync(async (req, res) => {
+    // ! Find user document and update it's details
+    const {type, message, statusCode, user} = await userService.updateUserDetails(req.user, req.body);
 
+    // ! check if there is an error
+    if (type === 'Error') {
+        return res.status(statusCode).json({
+            type,
+            message: message
+        })
+    }
+
+    // ! if everything is OK, send data
+    return res.status(statusCode).json({
+        type,
+        message: message,
+        user
+    })
+})
+
+/** 
+ * @desc Update User Profile Image Controller
+ * @param {Object} req - Request object
+ * @param {Object} res - Response object
+ * @property {Object} req.file - User image
+ * @property {Object} req.user - An object contains logged in user data
+ * @returns {JSON} - A json object representing the type, message and user data
+*/
+const updateUserProfileImage = catchAsync(async (req, res) => {
+    // ! Find user document and update it's profile image
+    const {type, message, statusCode, user} = await userService.updateUserProfileImage(req.user, req.file)
+
+    // ! Check if there is an error
+    if (type === 'Error') {
+        return res.status(statusCode)
+            .json({
+                type,
+                message: message
+            })
+    }
+
+    // ! if everything is OK, send data
+    return res.status(statusCode).json({
+        type,
+        message: message,
+        user
+    })
+})
 
 
