@@ -16,7 +16,7 @@ const createUser = catchAsync(async (body, profileImg) => {
     if (profileImg === undefined) {
         return {
             type: Error,
-            message: 'profileImageRequired',
+            message: 'Profile image is required, please upload an image!',
             statusCode: StatusCodes.BAD_REQUEST
         }
     }
@@ -45,7 +45,7 @@ const createUser = catchAsync(async (body, profileImg) => {
     ) {
         return {
             type: 'Error',
-            message: 'fieldsRequired',
+            message: 'All fields are required.',
             statusCode: StatusCodes.BAD_REQUEST
         }
     }
@@ -58,7 +58,7 @@ const createUser = catchAsync(async (body, profileImg) => {
     if (userExist) {
         return {
             type: 'Error',
-            message: 'emailTaken',
+            message: 'Email is already taken.',
             statusCode : StatusCodes.CONFLICT
         }
     }
@@ -85,7 +85,7 @@ const createUser = catchAsync(async (body, profileImg) => {
 
     return {
         type: 'Success',
-        message: 'successfulSignUp',
+        message: 'Account created successful, please verify your email!',
         statusCode: StatusCodes.ACCEPTED,
         user
     }
@@ -103,7 +103,7 @@ const logIn = catchAsync(async (body) => {
     if (!email || !passport) {
         return {
             type: Error,
-            message: 'fieldRequired',
+            message: 'All fields are required.',
             statusCode: StatusCodes.BAD_REQUEST
         }
     }
@@ -111,7 +111,7 @@ const logIn = catchAsync(async (body) => {
     if (!user) {
         return {
             type: 'Error',
-            message: 'userNotFound',
+            message: 'User Not Found',
             statusCode: StatusCodes.BAD_REQUEST
         }
     }
@@ -123,7 +123,7 @@ const logIn = catchAsync(async (body) => {
 
     return {
         type: 'Success',
-        message: 'successfulSignIn',
+        message: 'User logged in successfuly.',
         statusCode: StatusCodes.OK,
         token
     }
@@ -145,7 +145,7 @@ const updateUserDetails = catchAsync(async (user, body) => {
     if (password || passwordConfirmation) {
         return {
             type: 'Error',
-            message: 'passwordUpdateRoute',
+            message: 'Cannot update password from here.',
             statusCode: StatusCodes.BAD_REQUEST
         }
     }
@@ -158,7 +158,7 @@ const updateUserDetails = catchAsync(async (user, body) => {
 
     return {
         type: 'Success',
-        message: 'successfulUserDetails',
+        message: 'User details updated successfully.',
         statusCode: StatusCodes.OK
     }
 })
@@ -168,7 +168,7 @@ const updateUserProfileImage = catchAsync(async(user, profileImg) => {
     if (profileImg === undefined) {
         return {
             type: 'Error',
-            message: 'profileImageRequired',
+            message: 'Profile image is required, please upload an image!',
             statusCode: StatusCodes.BAD_REQUEST
         }
     }
@@ -196,7 +196,7 @@ const updateUserProfileImage = catchAsync(async(user, profileImg) => {
     // ! If everything is Ok, send data
     return {
         type: 'Success',
-        message: 'successfulUserImage',
+        message: 'User image updated successfully.',
         statusCode: StatusCodes.OK
     }
 })
@@ -208,7 +208,7 @@ const deleteUser = catchAsync(async (id) => {
     if (!user){
         return {
             type: 'Error',
-            message: 'noUserFoundWithID',
+            message: 'No user found with this ID.',
             statusbar: StatusCodes.NOT_FOUND
         }
     }
@@ -218,7 +218,7 @@ const deleteUser = catchAsync(async (id) => {
 
     return {
         type: 'Success',
-        message: 'successfulUserDelete',
+        message: 'Account deleted successfully.',
         statusCode: StatusCodes.OK
     }
 })
