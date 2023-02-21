@@ -1,29 +1,13 @@
-
+/**
+ * @desc - An error handler middleware
+ * @param {Object} error - Error object
+ * @param {Object} req - Request object
+ * @param {Object} res - Response object
+ * @param {function} next - next function
+ */
 const errorHandler = (error, req, res, next) => {
-    switch (error.name) {
-        case "BadRequestError":
-            res.status(400);
-            break;
-        
-        case "UnauthorizedError":
-            res.status(401);
-            break;
-        
-        case "ForbiddenError":
-            res.status(403);
-            break;
-
-        case "NotFoundError":
-            res.status(404);
-            break;
-
-        default:
-            res.status(500);
-            break;
-    }
-
     console.error(error)
-    res.json({
+    res.status(500).json({
         message: error.message
     })
 }

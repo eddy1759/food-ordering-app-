@@ -10,15 +10,17 @@ cloudinary.config({
 const destroyFile = (PublicID) => {
         cloudinary.destroy(PublicID, (error, des) => des)
 }
-const uploadFile = (file, width) => {
-        cloudinary.uploader.upload(file, {
-                width: width,
-                crop: 'fit',
-                format: 'webp'
-        })
+
+
+const uploadFile = async (imgFile) => {
+    const response = await cloudinary.uploader.upload(imgFile);
+
+    if (!response) {
+      throw new Error(`Could not upload file to Cloudinary: ${error}`);
+    }
+
+    return response.public_id, response.url;
+    
 };
 
-module.exports = {
-        destroyFile,
-        uploadFile
-}
+module.exports = { destroyFile, uploadFile };

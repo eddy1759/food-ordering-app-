@@ -54,7 +54,6 @@ const userSchema = new Schema({
     },
     profileImg: {
         type: String,
-        required: true
     },
     profileImageId: {
         type: String
@@ -66,14 +65,13 @@ const userSchema = new Schema({
 )
 
 userSchema.pre('save', async function hashedPassword (next) {
-    // Oonly run this function if password was actually modified
+    // Only run this function if password was actually modified
     if (!this.isModified('password')) return next();
     // passport hashing
     const hash = await bcrypt.hash(this.password, 10)
 
-    this.password = hash;
-    // Delete passwordConfirmation field
     this.passwordConfirmation = undefined
+    this.password = hash;
     next()
 })
 

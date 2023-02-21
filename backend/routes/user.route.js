@@ -1,24 +1,25 @@
 const express = require('express')
 const helper = require('../utils/helper')
-const singleFile = require('../utils/multer')
-const paramIsValidId = require('../middlewares/reqParam.validation')
-const {AddUserValidationMW, UpdateUserValidationMW
-} = require('../middlewares/validators/user.validator')
-const userController = require('../controller/index')
+// const paramIsValidId = require('../middlewares/reqParam.validation')
+const UserController = require('../controller/userController')
+const uploadSingleImage = require('../utils/multer')
+const passport = require('passport')
 
 
 const router = express.Router()
 
-router.route('/signup').post( singleFile('image'),userController.createUser)
+const userControl = new UserController()
 
-router.route('/signin').post(userController.loginUser)
+router.get('/users', userControl.getUsers)
 
-router.route('/logout').get(helper.verifyUser, userController.logout)
+router.post('/users', userControl.createUser)
 
-router.route(paramIsValidId, '/update-details').put(UpdateUserValidationMW, userController.updateUserDetails)
+router.post('/users/login', userControl.loginUser)
 
-router.route(paramIsValidId, '/update-profile-image').patch(singleFile('image'), userController.updateUserProfileImage)
+router.put('/users', helper.authMiddleware, userControl.updateUser)
 
-router.route('/:id').delete(helper.verifyAdmin, userController.deleteUser)
+router.post('/users/logout', userControl.logoutUser)
+
+router.post('/users/profileimg',passport.authenticate('jwt', { session: false}), uploadSingleImage, userControl.uploadProfileImage)
 
 module.exports = router
